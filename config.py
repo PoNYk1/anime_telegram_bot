@@ -1,5 +1,2 @@
-# TOKEN = ''
-# ADMINS = [] # id Админов бота
-
-TOKEN = '5216282124:AAEL1ZPuQ9_OoSwJTEb-f6HJ4T2xl99FNY4'
-ADMINS = ["993003772"]
+TOKEN = ''
+ADMINS = [] # id Админов бота
