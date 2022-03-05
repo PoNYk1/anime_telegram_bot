@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "repl_python3_animetelegrambot-1"
+version = "0.1.0"
+description = ""
+authors = ["PoNYk1 <<>>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aiogram = "^2.19"
+emoji = "^1.6.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

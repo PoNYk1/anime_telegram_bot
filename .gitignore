@@ -1,6 +1,6 @@
 .env
 .venv
-.db
+main.db
 env/
 venv/
 ENV/
@@ -21,7 +21,6 @@ venv.bak/
 .idea/vcs.xml
 
 .replit
-poetry.lock
 replit.nix
-pyproject.toml
+
 
