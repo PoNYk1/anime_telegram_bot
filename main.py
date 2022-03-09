@@ -1,14 +1,12 @@
-from handlers import client
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from aiogram.utils import executor
 from aiogram import types
-
+from aiogram.utils import executor
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 import config
-from startup import startup
+from src.startup import startup
 from create_bot import dp
+from src.handlers import client
 
-import logging
 from emoji import emojize
 
 

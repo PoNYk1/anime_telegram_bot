@@ -1,6 +1,6 @@
 from .handlers_client import calc_handler, add_handlers, show_handler, del_handler
 from aiogram import types, Dispatcher
-from keyboards import main_menu_kb
+from src.keyboards import main_menu_kb
 
 
 async def open_menu(m: types.Message):

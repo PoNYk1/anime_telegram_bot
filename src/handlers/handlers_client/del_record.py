@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
-from SQliter import SQlite_db
+from src.SQliter import SQlite_db
 from emoji import emojize
 
 

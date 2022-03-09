@@ -1,4 +1,5 @@
 import sqlite3
+from src.SQL_code import create_records_table, create_user_table
 
 
 class SQlite_db ():
@@ -8,17 +9,8 @@ class SQlite_db ():
         self.connect = sqlite3.connect(r'main.db')
         self.cursor = self.connect.cursor()
 
-        self.cursor.execute("""
-                CREATE TABLE IF NOT EXISTS records(
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                user_id INT NOT NULL,
-                user_name VARCHAR(255) NOT NULL,
-                url TEXT NOT NULL, 
-                title TEXT NOT NULL,
-                cur_episode INT NOT NULL,
-                baner_url TEXT,
-                date TEXT
-                )""")
+        self.cursor.execute(create_records_table)
+        self.cursor.execute(create_user_table)
         self.connect.commit()
 
     def new_record(self, rec):

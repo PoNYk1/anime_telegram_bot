@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 
-from SQliter import SQlite_db
+from src.SQliter import SQlite_db
 from emoji import emojize
 
 

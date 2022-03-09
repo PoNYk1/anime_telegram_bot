@@ -1,5 +1,5 @@
 
-from SQliter import SQlite_db
+from src.SQliter import SQlite_db
 
 
 async def startup(_):
