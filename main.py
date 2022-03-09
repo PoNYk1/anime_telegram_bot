@@ -1,27 +1,38 @@
+from handlers import client
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import executor
-from aiogram import types, Dispatcher
-from create_bot import bot, dp
+from aiogram import types
 
-from config import ADMINS
+
+import config
 from startup import startup
+from create_bot import dp
 
 import logging
 from emoji import emojize
 
 
-@dp.message_handler(commands=['start'])
+@dp.message_handler(commands=['start', 'help'])
 async def start(m: types.Message):
-    if str(m['from']['id']) in ADMINS:
+    menu_btn = KeyboardButton('/menu')
+    admin_btn = KeyboardButton('/admin')
+    kb = ReplyKeyboardMarkup(resize_keyboard=True)
+    kb.add(menu_btn)
+
+    if str(m['from']['id']) in config.ADMINS:
+        config.ADMIN_MOD = True
+
+    if config.ADMIN_MOD:
         await m.answer("Вы админ!")
+        kb.add(admin_btn)
 
     await m.answer_photo(
         'https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg')
     await m.answer(
-        f"Приведствую! Напиши /menu что-бы узнать список доступных комманд.{emojize(':umbrella:')}"
+        f"Приведствую! Напиши /menu что-бы узнать список доступных комманд.{emojize(':umbrella:')}",
+        reply_markup=kb
     )
 
-
-from handlers import client
 
 client.register_client_handlers(dp)
 

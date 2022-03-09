@@ -1,6 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from emoji import emojize
 
+from config import ADMIN_MOD
+
 calc_btn = InlineKeyboardButton('Канкулятор', callback_data="calc")
 
 add = InlineKeyboardButton(emojize(':white_small_square: Добавить.'),
@@ -18,9 +20,12 @@ list = InlineKeyboardButton(emojize(':white_small_square: Список подп�
 info = InlineKeyboardButton(emojize(':white_small_square: Инструкция'),
                             callback_data="info")
 
+root = InlineKeyboardButton('ROOT', callback_data="calc")
+
 # main_menu_kb = InlineKeyboardMarkup (resize_keyboard=True, one_time_keyboard=True)
 main_menu_kb = InlineKeyboardMarkup()
 
-# main_menu_kb.add (calc_btn)
+if ADMIN_MOD:
+    main_menu_kb.add(root)
 
 main_menu_kb.row(add, rem).add(update).add(list).add(info)
