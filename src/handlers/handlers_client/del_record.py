@@ -11,10 +11,8 @@ class dialog (StatesGroup):
 
 
 async def del_rec(qc: types.CallbackQuery):
-    db = SQlite_db()
-
-    user = qc['from']
-    rec_list = db.get_user_records(user['id'])
+    db = SQlite_db(qc['from']['id'], qc['from']['first_name'])
+    rec_list = db.get_user_records()
 
     qc.answer()
 
@@ -32,12 +30,13 @@ async def del_rec(qc: types.CallbackQuery):
 
 
 async def del_this(m: types.Message, state: FSMContext):
-    db = SQlite_db()
+    db = SQlite_db(m['from']['id'], m['from']['first_name'])
     async with state.proxy() as data:
         data['dell'] = m.text
+        
         db.del_by_id(data['dell'])
         await m.answer("Подписка удалена!")
-
+        
     await state.finish()
 
 

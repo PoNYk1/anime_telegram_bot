@@ -5,8 +5,8 @@ from emoji import emojize
 
 
 async def show_records(cq: types.CallbackQuery):
-    db = SQlite_db()
-    rec_list = db.get_user_records(cq['from']['id'])
+    db = SQlite_db(cq['from']['id'], cq['from']['first_name'])
+    rec_list = db.get_user_records()
 
     if len(rec_list) != 0:
         req = ''

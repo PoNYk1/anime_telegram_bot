@@ -4,9 +4,9 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from src.SQliter import SQlite_db
 
-import requests
-from bs4 import BeautifulSoup as bs
 from emoji import emojize
+
+from src.parsers import Animego_parser
 
 
 class dialog (StatesGroup):
@@ -20,21 +20,19 @@ async def add(cq: types.CallbackQuery):
 
 
 async def into_db(m: types.Message, state: FSMContext):
-    db = SQlite_db()
 
     async with state.proxy() as data:
         data['url'] = m.text
         user = m['from']
+        db = SQlite_db(m['from']['id'], m['from']['first_name'])
 
         try:
-            req = requests.get(data['url'])
-            if req.ok:
+            pars = Animego_parser(data['url'])
+            anime_info = pars.get_all_info()
 
-                db.new_record((user['id'], user['first_name'],
-                               data['url'], "it's test", 0, 'https//', '0.0.0'))
+            db.new_record((data['url'], anime_info['title'],
+                          anime_info['cur_episode'], anime_info['banner_url'], '0.0.0'))
 
-            else:
-                await m.answer("К сожалению не могу получить доступ к сайту по этой сылке.")
         except:
             await m.answer("Эй! Это точно ссылка?")
     await state.finish()
