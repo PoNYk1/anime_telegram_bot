@@ -14,7 +14,7 @@ async def del_rec(qc: types.CallbackQuery):
     db = SQlite_db(qc['from']['id'], qc['from']['first_name'])
     rec_list = db.get_user_records()
 
-    qc.answer()
+    await qc.answer()
 
     if len(rec_list) != 0:
         req = ''
@@ -33,10 +33,10 @@ async def del_this(m: types.Message, state: FSMContext):
     db = SQlite_db(m['from']['id'], m['from']['first_name'])
     async with state.proxy() as data:
         data['dell'] = m.text
-        
+
         db.del_by_id(data['dell'])
         await m.answer("Подписка удалена!")
-        
+
     await state.finish()
 
 

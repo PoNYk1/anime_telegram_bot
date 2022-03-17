@@ -1,6 +1,8 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from datetime import datetime
 
 from src.SQliter import SQlite_db
 
@@ -14,7 +16,11 @@ class dialog (StatesGroup):
 
 
 async def add(cq: types.CallbackQuery):
-    await cq.message.answer("Дай мне ссылку на сайт:")
+    site_list = InlineKeyboardMarkup()
+    anigo = InlineKeyboardButton('AnimeGO', url='https://animego.org')
+    site_list.add(anigo)
+
+    await cq.message.answer("Дай мне ссылку на сайт:", reply_markup=site_list)
     await cq.answer()
     await dialog.next()
 
@@ -27,12 +33,17 @@ async def into_db(m: types.Message, state: FSMContext):
         db = SQlite_db(m['from']['id'], m['from']['first_name'])
 
         try:
-            pars = Animego_parser(data['url'])
-            anime_info = pars.get_all_info()
+            pars = Animego_parser()
+            anime_info = pars.get_all_info(data['url'])
 
-            db.new_record((data['url'], anime_info['title'],
-                          anime_info['cur_episode'], anime_info['banner_url'], '0.0.0'))
+            if db.match_by_title(anime_info['title']) == True:
+                db.new_record((data['url'], anime_info['title'],
+                               anime_info['cur_episode'], anime_info['banner_url'], datetime.now().date()))
 
+                await m.answer_photo(anime_info['banner_url'])
+                await m.answer(f"Аниме: <b>{anime_info['title']}</b> \n\nТекущий эпизод: <b>{anime_info['cur_episode']}</b>\n\nЗапись создана!", parse_mode='html')
+            else:
+                await m.answer("Похоже вы уже подписаны на это аниме!")
         except:
             await m.answer("Эй! Это точно ссылка?")
     await state.finish()

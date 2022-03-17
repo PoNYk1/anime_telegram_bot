@@ -6,7 +6,7 @@ create_records_table = """
                   title TEXT NOT NULL,
                   cur_episode INT NOT NULL,
                   baner_url TEXT,
-                  date TEXT
+                  last_update_date TEXT
                 )"""
 
 create_user_table = """

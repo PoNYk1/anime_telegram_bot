@@ -23,14 +23,16 @@ class SQlite_db ():
             self.cursor.execute(
                 f'INSERT INTO users (user_id , user_name) VALUES (?,?)', (user_id, user_name))
             self.connect.commit()
+
+            print(f"Новый пользователь: {user_id}, {user_name}")
         return user_id
 
     def new_record(self, rec):
         """ url, title, cur_episode, baner_url, date"""
-        print(rec)
+        # print(rec)
         try:
             self.cursor.execute(
-                'INSERT INTO records (user_id , url, title, cur_episode, baner_url, date) VALUES (?,?,?,?,?,?)', (self.cur_user, *rec))
+                'INSERT INTO records (user_id , url, title, cur_episode, baner_url, last_update_date) VALUES (?,?,?,?,?,?)', (self.cur_user, *rec))
             self.connect.commit()
             print("Запись успешно сознанна!")
         except:
@@ -50,6 +52,20 @@ class SQlite_db ():
             return self.cursor.fetchall()
         except:
             print('Ошибка поиска!')
+
+    def match_by_title(self, title):
+        self.cursor.execute(
+            f'SELECT * FROM records WHERE user_id="{self.cur_user}" AND title="{title}"'
+        )
+
+        rez = len(self.cursor.fetchall())
+
+        print(len(self.cursor.fetchall()))
+
+        if rez > 0:
+            return False
+        else:
+            return True
 
     def del_by_id(self, id):
         try:
