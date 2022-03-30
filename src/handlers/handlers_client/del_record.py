@@ -1,3 +1,4 @@
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -38,12 +39,18 @@ async def del_this(m: types.Message, state: FSMContext):
         await m.answer('Хорошо')
     else:
         with SQLiter(m['from']['id']) as db:
+            is_del = False
+
             for sub in db.get_user_sub():
                 if int(m.text) == sub[0]:
                     db.del_sub(m.text)
-                    await m.answer('Подписка удаленна.')
-                else:
-                    await m.answer('В списке нет такого индекса!')
+                    is_del = True
+
+            if is_del:
+                await m.answer('Подписка удаленна.')
+            else:
+                await m.answer('В списке нет такого индекса!')
+
     await state.finish()
 
 

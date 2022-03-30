@@ -36,7 +36,8 @@ async def into_db(m: types.Message, state: FSMContext):
             info = pars.get_all_info(data['url'])
 
             with SQLiter(m['from']['id']) as db:
-                user_sub = db.get_user_sub()
+                user_sub = db.get_user_sub_anime()
+
                 flag = True
 
                 for anime in user_sub:
