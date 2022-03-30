@@ -31,7 +31,7 @@ class Animego_parser ():
                 info['cur_episode'] = int(re.findall(
                     r'\d{0,}', el.find_next_sibling().text)[0])
 
-        print(info)
+        # print(info)
         return info
 
     def get_cur_epesode(self, url):
